@@ -6,7 +6,7 @@
 
     <main>
         <div class="create">
-            <form class="product-form">
+            <form class="product-form" method="POST">
                 <div class="form-control">
                     <label for="title">Title</label>
                     <input 
@@ -38,6 +38,7 @@
                         id="description" 
                         rows="5"></textarea>
                 </div>
+                <input type="hidden">
                 <button class="btn" type="submit">Create</button>
             </form>
         </div>
