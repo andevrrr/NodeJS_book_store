@@ -10,10 +10,17 @@ exports.getCreate = (req, res, next) => {
 }
 
 exports.getProducts = (req, res, next) => {
-    res.render('admin/products.ejs', {
-        path: '/admin/products',
-        pageTitle: 'Admin products'
-    });
+    Product.find()
+    .then(products => {
+        res.render('admin/products.ejs', {
+            path: '/admin/products',
+            pageTitle: 'Admin products',
+            products: products
+        });
+    })
+    .catch(err => {
+        console.log(err);
+    })
 }
 
 exports.postProduct = (req, res, next) => {
@@ -30,6 +37,7 @@ exports.postProduct = (req, res, next) => {
     product.save()
         .then(result => {
             console.log('Product Created!');
+            res.redirect('/admin/products');
         })
         .catch(err => {
             console.log(err);

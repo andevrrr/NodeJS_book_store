@@ -6,42 +6,26 @@
 
     <main>
         <div class="grid">
+            <% for (let product of products) { %>
             <article class="product_item">
                 <header class="product_item_header">
-                    <h1>Book</h1>
+                    <h1><%= product.title %></h1>
                 </header>
                 <div class="product_item_image">
                     <img src="/public/book.png" alt="">
                 </div>
                 <div class="product_item_info">
-                    <h2>99.8$</h2>
-                    <p>A greate book about the greatest me, thanks hola, cao </p>
+                    <h2><%= product.price %>$</h2>
+                    <p><%= product.description %></p>
                 </div>
                 <div class="product_item_actions">
                     <div>
-                        <a href="">Details</a>
-                        <a href="">Add to cart</a>
+                        <a href="" class="btn">Details</a>
+                        <a href="" class="btn">Add to cart</a>
                     </div>
                 </div>
             </article>
-            <article class="product_item">
-                <header class="product_item_header">
-                    <h1>Book</h1>
-                </header>
-                <div class="product_item_image">
-                    <img src="/public/book.png" alt="">
-                </div>
-                <div class="product_item_info">
-                    <h2>99.8$</h2>
-                    <p>A greate book about the greatest me, thanks hola, cao </p>
-                </div>
-                <div class="product_item_actions">
-                    <div>
-                        <a href="">Details</a>
-                        <a href="">Add to cart</a>
-                    </div>
-                </div>
-            </article>
+            <% }%>
         </div>
     </main>
     
