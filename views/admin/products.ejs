@@ -12,7 +12,7 @@
                     <h1><%= product.title %></h1>
                 </header>
                 <div class="product_item_image">
-                    <img src="/public/book.png" alt="">
+                    <img src="/<%= product.imageUrl %>" alt="">
                 </div>
                 <div class="product_item_info">
                     <h2><%= product.price %>$</h2>
@@ -20,8 +20,8 @@
                 </div>
                 <div class="product_item_actions">
                     <div>
-                        <a href="" class="btn">Details</a>
-                        <a href="" class="btn">Add to cart</a>
+                        <a href="" class="btn">Edit</a>
+                        <a href="" class="btn">Delete</a>
                     </div>
                 </div>
             </article>

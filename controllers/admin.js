@@ -25,13 +25,18 @@ exports.getProducts = (req, res, next) => {
 
 exports.postProduct = (req, res, next) => {
     const title = req.body.title;
+    const image = req.file;
     const price = req.body.price;
     const description = req.body.description;
+
+    const imageUrl = image.path;
+    console.log(imageUrl);
 
     const product = new Product({
         title: title,
         price: price,
-        description: description
+        description: description,
+        imageUrl: imageUrl
     })
 
     product.save()

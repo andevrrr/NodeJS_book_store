@@ -38,3 +38,7 @@
     text-align: center;
     height: 100%;
 }
+
+.product_item_image img {
+    width: -webkit-fill-available;
+}
