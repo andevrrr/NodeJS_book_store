@@ -1,0 +1,21 @@
+<%- include('../includes/header.ejs') %>
+<link rel="stylesheet" type="text/css" href="/css/details.css">
+</head>
+<body>
+    <%- include('../includes/navigation.ejs') %>
+
+    <main>
+        <div class="product-container">
+            <h1><%= product.title %></h1>
+            <img src="/<%= product.imageUrl %>" alt="">
+            <h2><%= product.price %></h2>
+            <p><%= product.description %></p>
+            <div class="btn-container">
+                <a href="/shop" class="btn">Go back</a>
+                <a href="" class="btn">Add to cart</a>
+            </div>
+        </div>
+    </main>
+    
+</body>
+</html>

@@ -1,6 +1,7 @@
 const path = require('path');
 
 const Product = require('../models/product');
+const product = require('../models/product');
 
 exports.getMain = (req, res, next) => {
     res.render('shop/main.ejs', {
@@ -16,6 +17,21 @@ exports.getShop = (req, res, next) => {
             path: "/shop",
             pageTitle: 'Shop',
             products: products
+        })
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
+
+exports.getDetails = (req, res, next) => {
+    const prodId = req.params.productId;
+    Product.findById(prodId)
+    .then(product => {
+        res.render("shop/details.ejs", {
+            path: "/details",
+            pageTitle: 'Details',
+            product: product
         })
     })
     .catch(err => {
