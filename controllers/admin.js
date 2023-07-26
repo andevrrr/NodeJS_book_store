@@ -1,7 +1,5 @@
-const path = require('path');
 const fileHelper = require('../utils/file');
 const Product = require('../models/product');
-const product = require('../models/product');
 
 exports.getCreate = (req, res, next) => {
     res.render('admin/create.ejs', {

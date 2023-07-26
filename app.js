@@ -14,6 +14,7 @@ const MONGODB_URI =
 // routes
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+const authRoutes =  require('./routes/auth');
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -39,6 +40,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
+app.use(authRoutes);
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
