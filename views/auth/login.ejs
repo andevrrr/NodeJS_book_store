@@ -1,10 +1,22 @@
 <%- include('../includes/header.ejs') %>
-<link rel="stylesheet" type="text/css" href="/css/cart.css">
+<link rel="stylesheet" type="text/css" href="/css/auth.css">
 </head>
 <body>
     <%- include('../includes/navigation.ejs') %>
 
-    login
+    <main>
+        <form class="login-form" method="POST">
+            <div class="form-control">
+                <label for="email">E-mail</label>
+                <input type="email" name="email" id="email">
+            </div>
+            <div class="form-control">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password">
+            </div>
+            <button class="btn" type="submit">Login</button>
+        </form>
+    </main>
 </body>
 
 </html>

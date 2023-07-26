@@ -1,3 +1,5 @@
+const bcrypt = require('bcryptjs');
+
 exports.getLogin = (req, res, next) => {
     res.render('auth/login', {
         path: "/login",
@@ -10,4 +12,9 @@ exports.getSignup = (req, res, next) => {
         path: "/signup",
         pageTitle: "Signup"
     })
+}
+
+exports.postSignUp = (req, res, next) => {
+    const email = req.body.email;
+    const password = req.body.password;
 }
