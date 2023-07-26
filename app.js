@@ -3,7 +3,8 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const flash = require('connect-flash');
-const app = express();
+const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 //MongoDB
 const mongoose = require('mongoose');
@@ -12,6 +13,16 @@ const MONGODB_URI =
     `mongodb+srv://anton:PLiaApfQ7vwmm0wZ@cluster0.ged35hr.mongodb.net/books`;
 
 
+const app = express();
+const store = new MongoDBStore({
+    uri: MONGODB_URI,
+    collection: 'sessions'
+});
+
+store.on('error', (error) => {
+    console.error('Error in MongoDB session store:', error);
+  });
+  
 // routes
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
@@ -40,6 +51,24 @@ app.use(multer({ storage: fileStorage, fileFilter: fileFilter}).single('image'))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
+
+app.use(
+    session(
+        {
+            secret: 'my secret',
+            resave: false,
+            saveUninitialized: false,
+            store: store
+        }
+    )
+)
+
+app.use((flash()));
+
+app.use((req, res, next) => {
+    res.locals.isAuthenticated = req.session.isLoggedIn;
+    next();
+})
 
 
 

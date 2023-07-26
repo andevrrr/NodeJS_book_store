@@ -4,15 +4,16 @@ const User = require('../models/user');
 const { validationResult } = require('express-validator');
 
 exports.getLogin = (req, res, next) => {
-    // let message = req.flash('error');
-    // if (message.length > 0) {
-    //     message = message[0];
-    // } else {
-    //     message = null;
-    // }
+    let message = req.flash('error');
+    if (message.length > 0) {
+        message = message[0];
+    } else {
+        message = null;
+    }
     res.render('auth/login', {
         path: "/login",
         pageTitle: "Login",
+        errorMessage: message,
         validationErrors: [],
         oldInput: {
             email: "",
@@ -23,15 +24,16 @@ exports.getLogin = (req, res, next) => {
 }
 
 exports.getSignup = (req, res, next) => {
-    // let message = req.flash('error');
-    // if (message.length > 0) {
-    //     message = message[0];
-    // } else {
-    //     message = null;
-    // }
+    let message = req.flash('error');
+    if (message.length > 0) {
+        message = message[0];
+    } else {
+        message = null;
+    }
     res.render('auth/signup', {
         path: "/signup",
         pageTitle: "Signup",
+        errorMessage: message,
         validationErrors: [],
         oldInput: {
             email: "",
@@ -52,6 +54,7 @@ exports.postSignUp = (req, res, next) => {
             .render('auth/signup', {
                 path: "/signup",
                 pageTitle: "Signup",
+                errorMessage: errors.array()[0].msg,
                 validationErrors: [{ param: 'email', param: 'password' }],
                 oldInput: {
                     email: email,

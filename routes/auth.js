@@ -29,7 +29,7 @@ router.post('/signup', [
     check('confirmPassword')
     .custom((value, { req }) => {
         if (value !== req.body.password) {
-            console.log('Passwords have to match!');
+            return Promise.reject('Passwords have to match!');
         }
         return true;
     })
