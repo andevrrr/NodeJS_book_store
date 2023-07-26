@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const multer = require('multer');
+const flash = require('connect-flash');
 const app = express();
 
 //MongoDB
@@ -39,6 +40,8 @@ app.use(multer({ storage: fileStorage, fileFilter: fileFilter}).single('image'))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
+
+
 
 app.use(authRoutes);
 app.use('/admin', adminRoutes);
