@@ -7,7 +7,11 @@ const User = require('../models/user');
 
 router.get('/login', authController.getLogin);
 
-router.post('/login');
+router.post('/login', [
+    check('email')
+    .isEmail()
+    .withMessage('Please enter a valid email.')
+] , authController.postLogin);
 
 router.get('/signup', authController.getSignup);
 
@@ -34,5 +38,7 @@ router.post('/signup', [
         return true;
     })
 ] , authController.postSignUp);
+
+router.post('/logout', authController.postLogout);
 
 module.exports = router;

@@ -3,12 +3,26 @@
         <ul class="nav-list">
             <li><a class="<%= path === '/' ? 'active' : '' %>" href="/">Main</a></li>
             <li><a class="<%= path === '/shop' ? 'active' : '' %>" href="/shop">Shop</a></li>
-            <li><a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart">Cart</a></li>
-            <li><a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders">Orders</a></li>
-            <li><a class="<%= path === '/admin/create' ? 'active' : '' %>" href="/admin/create">Create</a></li>
-            <li><a class="<%= path === '/admin/products' ? 'active' : '' %>" href="/admin/products">Admin Products</a></li>
-            <li><a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a></li>
-            <li><a class="<%= path === '/signup' ? 'active' : '' %>" href="/signup">SignUp</a></li>
+            <% if (isAuthenticated) { %>
+                <li><a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart">Cart</a></li>
+                <li><a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders">Orders</a></li>
+                <li><a class="<%= path === '/admin/create' ? 'active' : '' %>" href="/admin/create">Create</a></li>
+                <li><a class="<%= path === '/admin/products' ? 'active' : '' %>" href="/admin/products">Admin
+                        Products</a></li>
+                <% } %>
+        </ul>
+        <ul class="nav-list">
+            <% if (!isAuthenticated) { %>
+                <li><a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a></li>
+                <li><a class="<%= path === '/signup' ? 'active' : '' %>" href="/signup">SignUp</a></li>
+                <% } else { %>
+                    <li class="main-header__item">
+                        <form action="/logout" method="post">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <button type="submit">Logout</button>
+                        </form>
+                    </li>
+                    <% } %>
         </ul>
     </div>
 </header>
