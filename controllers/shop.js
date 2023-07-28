@@ -1,4 +1,4 @@
-
+const path = require('path');
 const Product = require('../models/product');
 const product = require('../models/product');
 
@@ -11,38 +11,69 @@ exports.getMain = (req, res, next) => {
 
 exports.getShop = (req, res, next) => {
     Product.find()
-    .then(products => {
-        res.render("shop/shop.ejs", {
-            path: "/shop",
-            pageTitle: 'Shop',
-            products: products
+        .then(products => {
+            res.render("shop/shop.ejs", {
+                path: "/shop",
+                pageTitle: 'Shop',
+                products: products
+            })
         })
-    })
-    .catch(err => {
-        console.log(err);
-    })
+        .catch(err => {
+            console.log(err);
+        })
 }
 
 exports.getDetails = (req, res, next) => {
     const prodId = req.params.productId;
     Product.findById(prodId)
-    .then(product => {
-        res.render("shop/details.ejs", {
-            path: "/details",
-            pageTitle: 'Details',
-            product: product
+        .then(product => {
+            res.render("shop/details.ejs", {
+                path: "/details",
+                pageTitle: 'Details',
+                product: product
+            })
         })
-    })
-    .catch(err => {
-        console.log(err);
-    })
+        .catch(err => {
+            console.log(err);
+        })
 }
 
 exports.getCart = (req, res, next) => {
-    res.render("shop/cart.ejs", {
-        path: "/cart",
-        pageTitle: 'Cart'
-    })
+    // Make sure req.user is defined
+    if (!req.user) {
+        return res.redirect('/login');
+    }
+
+    req.user
+        .populate('cart.items.productId')
+        .execPopulate()
+        .then(user => {
+            const products = user.cart.items;
+            res.render("shop/cart.ejs", {
+                path: "/cart",
+                pageTitle: 'Your cart',
+                products: products
+            });
+        })
+        .catch(err => {
+            console.log(err);
+        });
+}
+
+
+exports.postCart = (req, res, next) => {
+    const prodId = req.body.productId;
+    Product.findById(prodId)
+        .then(product => {
+            return req.user.addToCart(product);
+        })
+        .then(result => {
+            res.redirect('/cart');
+            console.log(result);
+        })
+        .catch(err => {
+            console.log(err);
+        });
 }
 
 exports.getOrders = (req, res, next) => {

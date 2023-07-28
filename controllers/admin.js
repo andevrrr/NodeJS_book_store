@@ -36,9 +36,9 @@ exports.postProduct = (req, res, next) => {
         title: title,
         price: price,
         description: description,
-        imageUrl: imageUrl
+        imageUrl: imageUrl,
+        userId: req.session.user._id
     })
-
     product.save()
         .then(result => {
             console.log('Product Created!');

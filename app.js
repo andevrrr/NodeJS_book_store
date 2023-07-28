@@ -5,6 +5,9 @@ const multer = require('multer');
 const flash = require('connect-flash');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
+const csrf = require('csurf');
+
+const errorController = require('./controllers/error');
 
 //MongoDB
 const mongoose = require('mongoose');
@@ -12,6 +15,7 @@ const mongoose = require('mongoose');
 const MONGODB_URI =
     `mongodb+srv://anton:PLiaApfQ7vwmm0wZ@cluster0.ged35hr.mongodb.net/books`;
 
+const csrfProtection = csrf();
 
 const app = express();
 const store = new MongoDBStore({
@@ -63,10 +67,12 @@ app.use(
     )
 )
 
+app.use(csrfProtection);
 app.use((flash()));
 
 app.use((req, res, next) => {
     res.locals.isAuthenticated = req.session.isLoggedIn;
+    res.locals.csrfToken = req.csrfToken();
     next();
 })
 
@@ -75,6 +81,17 @@ app.use((req, res, next) => {
 app.use(authRoutes);
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
+
+app.get('/500', errorController.get500);
+
+app.use((error, req, res, next) => {
+    console.log(error);
+    res.status(500).render('500', {
+        pageTitle: 'Error!',
+        path: '/500',
+        isAuthenticated: req.session.isLoggedIn
+    })
+})
 
 mongoose.connect(MONGODB_URI)
     .then(result => {
