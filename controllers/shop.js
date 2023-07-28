@@ -1,6 +1,7 @@
 const path = require('path');
 const Product = require('../models/product');
 const product = require('../models/product');
+const User = require('../models/user');
 
 exports.getMain = (req, res, next) => {
     res.render('shop/main.ejs', {
@@ -46,7 +47,6 @@ exports.getCart = (req, res, next) => {
 
     req.user
         .populate('cart.items.productId')
-        .execPopulate()
         .then(user => {
             const products = user.cart.items;
             res.render("shop/cart.ejs", {
@@ -74,6 +74,21 @@ exports.postCart = (req, res, next) => {
         .catch(err => {
             console.log(err);
         });
+}
+
+exports.cartDeleteItem = (req, res, next) => {
+    const prodId = req.body.productId;
+    Product.findById(prodId)
+    .then(product => {
+        return req.user.removeFromCart(prodId);
+    })
+    .then(result => {
+        res.redirect('/cart');
+        console.log(result);
+    })
+    .catch(err => {
+        console.log(err);
+    })
 }
 
 exports.getOrders = (req, res, next) => {

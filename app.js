@@ -7,6 +7,8 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const csrf = require('csurf');
 
+const User = require('./models/user');
+
 const errorController = require('./controllers/error');
 
 //MongoDB
@@ -31,6 +33,7 @@ store.on('error', (error) => {
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const authRoutes =  require('./routes/auth');
+const user = require('./models/user');
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -76,6 +79,22 @@ app.use((req, res, next) => {
     next();
 })
 
+app.use((req, res, next) => {
+    if (!req.session.user) {
+        return next();
+    }
+    User.findById(req.session.user._id)
+    .then(user => {
+        if (!user) {
+            return next();
+        }
+        req.user = user;
+        next();
+    })
+    .catch(err => {
+        console.log(err);
+    })
+})
 
 
 app.use(authRoutes);

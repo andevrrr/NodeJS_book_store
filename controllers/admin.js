@@ -10,7 +10,8 @@ exports.getCreate = (req, res, next) => {
 }
 
 exports.getProducts = (req, res, next) => {
-    Product.find()
+    const userId = req.user._id;
+    Product.find({userId: userId})
         .then(products => {
             res.render('admin/products.ejs', {
                 path: '/admin/products',
@@ -37,7 +38,7 @@ exports.postProduct = (req, res, next) => {
         price: price,
         description: description,
         imageUrl: imageUrl,
-        userId: req.session.user._id
+        userId: req.user
     })
     product.save()
         .then(result => {
